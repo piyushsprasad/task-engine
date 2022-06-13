@@ -21,22 +21,19 @@ public class H2DaoImpl<T> implements Dao<T> {
 
     @Override
     public void insert(Object t) {
-        Transaction transaction = null;
+        Transaction transaction;
         try (Session session = connection.startSession()) {
             transaction = session.beginTransaction();
             session.persist(t);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException(String.format("Exception when inserting object %s", t.toString()), e);
         }
     }
 
     @Override
     public T updateField(String id, String field, Object value) {
-        Transaction transaction = null;
+        Transaction transaction;
         try (Session session = connection.startSession()) {
             transaction = session.beginTransaction();
 
@@ -55,9 +52,6 @@ public class H2DaoImpl<T> implements Dao<T> {
 
             return updated;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException(
                     String.format(
                             "Exception when updating object with id %s for field %s for value %s",
@@ -67,36 +61,30 @@ public class H2DaoImpl<T> implements Dao<T> {
 
     @Override
     public Optional<T> get(String id) {
-        Transaction t = null;
+        Transaction transaction;
         try (Session session = connection.startSession()) {
-            t = session.beginTransaction();
+            transaction = session.beginTransaction();
             Optional<T> obj = runGetQuery(session, id);
-            t.commit();
+            transaction.commit();
             return obj;
         } catch (Exception e) {
-            if (t != null) {
-                t.rollback();
-            }
             throw new RuntimeException("Exception when getting object with id "+ id, e);
         }
     }
 
     @Override
     public List<T> getByField(String field, String value) {
-        Transaction t = null;
+        Transaction transaction;
         try (Session session = connection.startSession()) {
-            t = session.beginTransaction();
+            transaction = session.beginTransaction();
             Query<T> q = session.createQuery(
                     String.format(
                             " from %s where %s = :%s", typeParameterClass.getSimpleName(), field, field),
                     typeParameterClass);
             q.setParameter(field, value);
-            t.commit();
+            transaction.commit();
             return q.list();
         } catch (Exception e) {
-            if (t != null) {
-                t.rollback();
-            }
             throw new RuntimeException(
                     String.format("Exception when getting %s objects with field %s equal to %s",
                             typeParameterClass.getSimpleName(), field, value), e);
@@ -105,20 +93,16 @@ public class H2DaoImpl<T> implements Dao<T> {
 
     @Override
     public List<T> getAll() {
-        Transaction t = null;
+        Transaction transaction;
         try (Session session = connection.startSession()) {
-            t = session.beginTransaction();
+            transaction = session.beginTransaction();
             Query<T> q = session.createQuery(
                     String.format(
                             " from %s", typeParameterClass.getName()),
                     typeParameterClass);
-            t.commit();
+            transaction.commit();
             return q.list();
         } catch (Exception e) {
-            if (t != null) {
-                t.rollback();
-            }
-            e.printStackTrace();
             throw new RuntimeException(
                     String.format("Exception when getting all %s objects",
                             typeParameterClass.getSimpleName()), e);
