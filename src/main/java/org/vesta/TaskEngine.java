@@ -18,42 +18,44 @@ import java.util.List;
 public class TaskEngine {
     private final HibernateConnection hibernateConnection;
     private final TaskManager taskManager;
-    private final List<Action> actions;
+    private final JsonSerializer jsonSerializer;
 
-    public TaskEngine(String actionFilePath, String taskFilePath) {
-        this(new HibernateConnection(), actionFilePath, taskFilePath);
+    public TaskEngine(String taskFilePath) {
+        this(new HibernateConnection(), taskFilePath);
     }
 
-    public TaskEngine(HibernateConnection hibernateConnection, String actionFilePath, String taskFilePath) {
+    public TaskEngine(HibernateConnection hibernateConnection, String taskFilePath) {
         this(hibernateConnection,
                 new H2DaoImpl<Loan>(hibernateConnection, Loan.class),
                 new H2DaoImpl<Borrower>(hibernateConnection, Borrower.class),
                 new H2DaoImpl<TaskInstance>(hibernateConnection, TaskInstance.class),
                 new TaskMapDaoImpl(),
-                actionFilePath, taskFilePath);
+                taskFilePath);
     }
 
     public TaskEngine(HibernateConnection hibernateConnection,
                       Dao<Loan> loanDao, Dao<Borrower> borrowerDao, Dao<TaskInstance> taskInstanceDao,
-                      Dao<Task> taskDao, String actionFilePath, String taskFilePath) {
+                      Dao<Task> taskDao, String taskFilePath) {
         this.hibernateConnection = hibernateConnection;
         taskManager = new TaskManager(taskDao, taskInstanceDao);
         ActionFactory actionFactory = new ActionFactory(loanDao, borrowerDao, taskManager);
-        JsonSerializer jsonSerializer = new JsonSerializer(actionFactory);
+        this.jsonSerializer = new JsonSerializer(actionFactory);
 
-        // Parse actions and tasks from input files.
-        actions = jsonSerializer.parseActions(actionFilePath);
-        List<Task> tasks = jsonSerializer.parseTasks(taskFilePath);
-
-        // Populate Task Map with inputted tasks.
-        tasks.forEach(taskDao::insert);
+        // Parse tasks and save in memory
+        addTasksFromFile(taskFilePath);
     }
 
-    public void process() {
+    public void processActionsFromFile(String actionFilePath) {
+        List<Action> actions = jsonSerializer.parseActions(actionFilePath);
         for (Action a : actions) {
             a.process();
             taskManager.printAllTasks();
         }
+    }
+
+    public void addTasksFromFile(String taskFilePath) {
+        List<Task> tasks = jsonSerializer.parseTasks(taskFilePath);
+        taskManager.insertAllTasks(tasks);
     }
 
     public void shutdown() {

@@ -6,8 +6,8 @@ public class Main {
             System.out.println("Required arguments not provided. Requires [actionFilePath] [taskFilePath]");
             return;
         }
-        TaskEngine taskEngine = new TaskEngine(args[0], args[1]);
-        taskEngine.process();
+        TaskEngine taskEngine = new TaskEngine(args[1]);
+        taskEngine.processActionsFromFile(args[0]);
         taskEngine.shutdown();
     }
 }

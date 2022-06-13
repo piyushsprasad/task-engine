@@ -68,7 +68,7 @@ public class H2DaoImpl<T> implements Dao<T> {
             transaction.commit();
             return obj;
         } catch (Exception e) {
-            throw new RuntimeException("Exception when getting object with id "+ id, e);
+            throw new RuntimeException("Exception when getting object with id " + id, e);
         }
     }
 

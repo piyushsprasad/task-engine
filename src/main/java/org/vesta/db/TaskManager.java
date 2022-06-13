@@ -71,6 +71,10 @@ public class TaskManager {
         taskInstanceDao.insert(taskInstance);
     }
 
+    public void insertAllTasks(List<Task> tasks) {
+        tasks.forEach(taskDao::insert);
+    }
+
     public void printAllTasks() {
         List<TaskInstance> allTaskInstances = taskInstanceDao.getAll();
         if (allTaskInstances.isEmpty()) {

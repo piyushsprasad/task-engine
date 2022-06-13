@@ -31,11 +31,11 @@ test {
     useJUnitPlatform()
 }
 
-tasks.withType(Tar){
+tasks.withType(Tar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-tasks.withType(Zip){
+tasks.withType(Zip) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 

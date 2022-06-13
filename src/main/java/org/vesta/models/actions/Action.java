@@ -25,6 +25,7 @@ public abstract class Action {
 
     /**
      * Overrided by action to actually process the update of the action.
+     *
      * @return updated Entity
      */
     public abstract Object updateEntity();
