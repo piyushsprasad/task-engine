@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'application'
+    id "io.freefair.lombok" version "6.4.3.1"
+}
+
+group 'org.vesta'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'junit:junit:4.13.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    implementation group: 'com.h2database', name: 'h2', version: '2.1.212'
+    implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.1.0.Final'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    testImplementation 'org.mockito:mockito-core:4.6.1'
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+}
+
+application {
+    mainClass = 'org.vesta.Main'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(Tar){
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType(Zip){
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'org.vesta.Main'
+        )
+    }
+
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
