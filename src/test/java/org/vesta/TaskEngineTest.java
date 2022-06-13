@@ -149,30 +149,6 @@ public class TaskEngineTest {
                 .usingRecursiveFieldByFieldElementComparator().containsExactlyElementsOf(expectedTaskInstanceList);
     }
 
-    @Test
-    public void testTaskEngineManual() {
-        String sampleActionsPath = "src/test/resources/sample_actions_manual.json";
-        String sampleTasksPath = "src/test/resources/sample_tasks_manual.json";
-        createUnderTest(sampleTasksPath);
-        underTest.processActionsFromFile(sampleActionsPath);
-
-        List<Loan> actualLoanList = loanDao.getAll();
-        System.out.println("Printing loans");
-        actualLoanList.forEach(System.out::println);
-
-        List<Borrower> actualBorrowerList = borrowerDao.getAll();
-        System.out.println("Printing borrowers");
-        actualBorrowerList.forEach(System.out::println);
-
-        List<Task> actualTaskList = taskDao.getAll();
-        System.out.println("Printing tasks");
-        actualTaskList.forEach(System.out::println);
-
-        List<TaskInstance> actualTaskInstanceList = taskInstanceDao.getAll();
-        System.out.println("Printing task instances");
-        actualTaskInstanceList.forEach(System.out::println);
-    }
-
     private void createUnderTest(String sampleTasksPath) {
         this.hibernateConnection = new HibernateConnection();
         this.loanDao = new H2DaoImpl<Loan>(hibernateConnection, Loan.class);
