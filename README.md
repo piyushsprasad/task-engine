@@ -22,7 +22,12 @@ java -jar build/libs/task-engine-1.0-SNAPSHOT.jar \
 
 #### Run from code
 ```bash
-./gradlew run
+./gradew run --args"[path_to_action_file_json] [path_to_tasks_file_json]"
+```
+Example:
+```bash
+./gradlew run  \
+  --args="src/test/resources/sample_actions.json src/test/resources/sample_tasks.json"
 ```
 
 ### High Level Design

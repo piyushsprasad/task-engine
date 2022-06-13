@@ -1,6 +1,9 @@
-package org.vesta.models.task;
+package org.vesta.db;
 
-import org.vesta.db.Dao;
+import org.vesta.models.task.EntityType;
+import org.vesta.models.task.Task;
+import org.vesta.models.task.TaskInstance;
+import org.vesta.models.task.TaskState;
 
 import java.util.Comparator;
 import java.util.List;
@@ -69,9 +72,14 @@ public class TaskManager {
     }
 
     public void printAllTasks() {
-        System.out.println("Printing all opened tasks -------------------- ");
         List<TaskInstance> allTaskInstances = taskInstanceDao.getAll();
+        if (allTaskInstances.isEmpty()) {
+            System.out.println("No tasks are open currently ------------------");
+            System.out.println();
+            return;
+        }
         allTaskInstances.sort(Comparator.comparing(TaskInstance::getId));
+        System.out.println("Printing all opened tasks -------------------- ");
         allTaskInstances.forEach(System.out::println);
         System.out.println("Finished printing all opened tasks -----------");
         System.out.println();

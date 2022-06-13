@@ -2,9 +2,9 @@ package org.vesta.models.actions;
 
 import lombok.ToString;
 import org.vesta.db.Dao;
+import org.vesta.db.TaskManager;
 import org.vesta.models.Borrower;
 import org.vesta.models.Loan;
-import org.vesta.models.task.TaskManager;
 
 import java.util.Optional;
 

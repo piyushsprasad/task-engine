@@ -2,8 +2,8 @@ package org.vesta.models.actions;
 
 import lombok.ToString;
 import org.vesta.db.Dao;
+import org.vesta.db.TaskManager;
 import org.vesta.models.Loan;
-import org.vesta.models.task.TaskManager;
 
 @ToString(callSuper = true)
 public class SetLoanFieldAction extends Action {

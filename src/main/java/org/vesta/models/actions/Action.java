@@ -2,10 +2,10 @@ package org.vesta.models.actions;
 
 import lombok.Getter;
 import lombok.ToString;
+import org.vesta.db.TaskManager;
 import org.vesta.models.task.EntityType;
 import org.vesta.models.task.Task;
 import org.vesta.models.task.TaskInstance;
-import org.vesta.models.task.TaskManager;
 
 import java.util.Map;
 

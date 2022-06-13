@@ -2,6 +2,7 @@ package org.vesta;
 
 import org.vesta.db.Dao;
 import org.vesta.db.HibernateConnection;
+import org.vesta.db.TaskManager;
 import org.vesta.db.impl.H2DaoImpl;
 import org.vesta.db.impl.TaskMapDaoImpl;
 import org.vesta.json.JsonSerializer;
@@ -11,7 +12,6 @@ import org.vesta.models.actions.Action;
 import org.vesta.models.actions.ActionFactory;
 import org.vesta.models.task.Task;
 import org.vesta.models.task.TaskInstance;
-import org.vesta.models.task.TaskManager;
 
 import java.util.List;
 

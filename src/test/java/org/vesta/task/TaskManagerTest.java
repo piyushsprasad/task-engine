@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.vesta.db.Dao;
+import org.vesta.db.TaskManager;
 import org.vesta.models.Loan;
 import org.vesta.models.task.*;
 

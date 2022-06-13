@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.vesta.db.Dao;
+import org.vesta.db.TaskManager;
 import org.vesta.models.Borrower;
 import org.vesta.models.Loan;
 import org.vesta.models.actions.Action;
