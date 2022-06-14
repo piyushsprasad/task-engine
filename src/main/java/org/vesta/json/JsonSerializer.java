@@ -6,6 +6,7 @@ import org.vesta.models.actions.Action;
 import org.vesta.models.actions.ActionFactory;
 import org.vesta.models.actions.ActionType;
 import org.vesta.models.task.Task;
+import org.vesta.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class JsonSerializer {
     public ObjectMapper mapper;
@@ -94,18 +94,14 @@ public class JsonSerializer {
 
     private Object safeGet(Map<String, Object> data, String key, Class<?> valueClass) {
         if (!data.containsKey(key)) {
-            String mapOutput = data.keySet().stream()
-                    .map(k -> k + "=" + data.get(k))
-                    .collect(Collectors.joining(", ", "{", "}"));
+            String mapOutput = Utils.printMap(data);
             throw new IllegalArgumentException(
                     String.format("Data does not contain key %s. Data Map: %s", key, mapOutput));
         }
 
         Object o = data.get(key);
         if (!valueClass.isInstance(o) && o != null) {
-            String mapOutput = data.keySet().stream()
-                    .map(k -> k + "=" + data.get(k))
-                    .collect(Collectors.joining(", ", "{", "}"));
+            String mapOutput = Utils.printMap(data);
             throw new IllegalArgumentException(
                     String.format("Data at key %s is not desired type %s. Data Map: %s", key, valueClass.getName(), mapOutput));
         }

@@ -37,7 +37,8 @@ public class TaskEngine {
                       Dao<Loan> loanDao, Dao<Borrower> borrowerDao, Dao<TaskInstance> taskInstanceDao,
                       Dao<Task> taskDao, String taskFilePath) {
         this.hibernateConnection = hibernateConnection;
-        taskManager = new TaskManager(taskDao, taskInstanceDao);
+        this.taskManager = new TaskManager(taskDao, taskInstanceDao);
+
         ActionFactory actionFactory = new ActionFactory(loanDao, borrowerDao, taskManager);
         this.jsonSerializer = new JsonSerializer(actionFactory);
 

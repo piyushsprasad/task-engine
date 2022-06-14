@@ -25,7 +25,7 @@ public class Condition {
             throw new RuntimeException(
                     String.format(
                             "Unable to find or access field %s on object %s for condition %s",
-                            this.getField(), o.toString(), this));
+                            this.getField(), o, this));
         }
 
         Comparator comparator = this.getComparator();
